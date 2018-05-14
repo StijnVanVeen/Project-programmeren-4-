@@ -19,7 +19,7 @@ app.use(express.static(__dirname + '/public'));
 // Routing with versions
 app.use('/api', require('./routes/Login'));
 //app.use('/api/studentenhuis', require('./routes/Studentenhuis'));
-//app.use('/api/register', require('./routes/Register'));
+app.use('/api/register', require('./routes/Register'));
 
 // Start the server
 const port = process.env.PORT || 8080;
