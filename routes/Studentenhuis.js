@@ -4,12 +4,11 @@ const db = require('../datasource/databaseConnection');
 
 
 router.get('/', (req, res) => {
-    let result = [];
-    result = db.query("SELECT * FROM studentenhuis", function (err, result) {
+    db.query("SELECT * FROM studentenhuis;", function (err, result) {
         if (err) throw err;
         console.log(result);
+        res.status(200).json(result);
     });
-    res.json(result);
 });
 
 //
