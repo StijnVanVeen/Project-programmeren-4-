@@ -9,7 +9,7 @@ app.all('*', function(req, res, next){
 });
 
 // Routing with versions
-app.use('/apiv1', require('./routes/apiv1'));
+app.use('/', require('./routes/Login'));
 
 // Start the server
 var port = process.env.PORT || 8080;
