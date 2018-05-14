@@ -1,23 +1,31 @@
 const express = require('express');
-
-// Create the application
 const app = express();
+const config = require('./config.json');
+const bodyParser = require('body-parser');
+
+app.set('PORT', config.webPort);
+app.set('SECRET_KEY', config.secretkey);
+
+app.use(bodyParser.urlencoded({ extended:true }));
+app.use(bodyParser.json());
 
 app.all('*', function(req, res, next){
     console.log( req.method + " " + req.url);
     next();
 });
 
+app.use(express.static(__dirname + '/public'));
+
 // Routing with versions
-app.use('/api/login', require('./routes/Login'));
-app.use('/api/studentenhuis', require('./routes/Studentenhuis'));
-app.use('/api/register', require('./routes/Register'));
+app.use('/api', require('./routes/Login'));
+//app.use('/api/studentenhuis', require('./routes/Studentenhuis'));
+//app.use('/api/register', require('./routes/Register'));
 
 // Start the server
-var port = process.env.PORT || 8080;
+const port = process.env.PORT || 8080;
 
 app.listen(port, function() {
-    console.log('The magic happens at http://localhost:' + port);
+    console.log('http://localhost:' + port);
 });
 
 module.exports = app;
