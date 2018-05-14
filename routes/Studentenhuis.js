@@ -43,19 +43,32 @@ router.route('/:huisId/maaltijd')
 
 });
 
-router.get('/huisId/maaltijd', (req, res, next) => {
+router.get('/:huisId/maaltijd', (req, res, next) => {
+    const huisId = req.params.huisId || '';
+
+    db.query("SELECT * FROM maaltijd WHERE StudentenhuisId = " + huisId + ";", function (err, result) {
+        if (err) throw err;
+        console.log(result);
+        res.status(200).json(result);
+    });
+});
+
+router.get('/:huisId/maaltijd/:maaltijdId', (req, res, next) => {
+    const huisId = req.params.huisId || '';
+    const maaltijdId = req.params.maaltijdId || '';
+
+    db.query("SELECT * FROM maaltijd WHERE ID = " + maaltijdId + " AND StudentenhuisId = " + huisId + ";", function (err, result) {
+        if (err) throw err;
+        console.log(result);
+        res.status(200).json(result);
+    });
+});
+
+router.put('/:huisId/maaltijd/:maaltijdId', (req, res, next) => {
 
 });
 
-router.get('/huisId/maaltijd/:maaltijdId', (req, res, next) => {
-
-});
-
-router.put('/huisId/maaltijd/:maaltijdId', (req, res, next) => {
-
-});
-
-router.delete('/huisId/maaltijd/:maaltijdId', (req, res, next) => {
+router.delete('/:huisId/maaltijd/:maaltijdId', (req, res, next) => {
 
 });
 
@@ -69,8 +82,15 @@ router.route('/:huisId/maaltijd/:maaltijdId')
 
     });
 
-router.get('/huisId/maaltijd/:maaltijdId/deelnemers', (req, res, next) => {
+router.get('/:huisId/maaltijd/:maaltijdId/deelnemers', (req, res, next) => {
+    const huisId = req.params.huisId || '';
+    const maaltijdId = req.params.maaltijdId || '';
 
+    db.query("SELECT * FROM `view_deelnemers` WHERE MaaltijdID = " + maaltijdId + " AND StudentenhuisId = " + huisId + ";", function (err, result) {
+        if (err) throw err;
+        console.log(result);
+        res.status(200).json(result);
+    });
 });
 
 router.delete('/huisId/maaltijd/:maaltijdId/deelnemers', (req, res, next) => {
