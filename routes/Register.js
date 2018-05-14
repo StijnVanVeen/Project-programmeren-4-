@@ -1,8 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const auth =  require('../auth/authentication');
 const users = require('../datasource/users');
-const fs = require('fs');
+
 
 
 router.route('/')
@@ -19,12 +18,14 @@ router.route('/')
             }
         });
 
-        let newUser = [{
+        let newUser = {
             firstname : firstname,
             lastname : lastname,
             email : email,
             password : password
-        }];
+        };
+        users.push(newUser);
+        console.log(users);
 
         // Generate JWT
         if( result[0] ) {
