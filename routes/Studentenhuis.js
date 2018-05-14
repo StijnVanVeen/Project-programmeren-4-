@@ -3,6 +3,7 @@ const router = express.Router();
 const db = require('../datasource/databaseConnection');
 
 
+
 router.get('/', (req, res) => {
     db.query("SELECT * FROM studentenhuis;", function (err, result) {
         if (err) throw err;
@@ -15,8 +16,14 @@ router.get('/', (req, res) => {
 // studentenhuis
 //
 
-router.get('/huisnummer', (req, res, next) => {
+router.get('/:huisId', (req, res, next) => {
+    const huisId = req.params.huisId || '';
 
+    db.query("SELECT * FROM studentenhuis WHERE ID = " + huisId  + ";", function (err, result) {
+        if (err) throw err;
+        console.log(result);
+        res.status(200).json(result);
+    });
 });
 
 router.put('/:huisId', (req, res, next) => {
