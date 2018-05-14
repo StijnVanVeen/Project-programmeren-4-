@@ -6,7 +6,6 @@ const db = require('../datasource/databaseConnection');
 
 router.all( new RegExp("[^(\/login)]"), function (req, res, next) {
 
-    //
     console.log("VALIDATE TOKEN")
 
     var token = (req.header('X-Access-Token')) || '';
@@ -25,27 +24,19 @@ router.all( new RegExp("[^(\/login)]"), function (req, res, next) {
 router.route('/login')
     .post( function(req, res) {
 
-        var email = req.body.email || '';
-        var password = req.body.password || '';
+        let email = req.body.email || '';
+        let password = req.body.password || '';
 
-        result = users.filter(function (user) {
-            if( user.email === email && user.password === password) {
-                return ( user );
+        db.query("SELECT email, password FROM user WHERE email = ? ",[email], function (err, rows, fields) {
+            if (err) throw err;
+            console.log(rows);
+            if(email === rows[0].email && password === rows[0].password ){
+                res.status(200).json({"token" : auth.encodeToken(email), "email" : email});
+            }else{
+                res.status(401).json({"error":"Invalid credentials, bye"})
             }
         });
-
-        // Debug
-        console.log("result: " +  JSON.stringify(result[0]));
-
-        // Generate JWT
-        if( result[0] ) {
-            res.status(200).json({"token" : auth.encodeToken(email), "email" : email});
-        } else {
-            res.status(401).json({"error":"Invalid credentials, bye"})
-        }
-
     });
-
 
 module.exports = router;
 
