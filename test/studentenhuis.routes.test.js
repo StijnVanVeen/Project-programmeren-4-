@@ -22,14 +22,14 @@ describe('Studentenhuis API POST', () => {
             .post('/api/studentenhuis')
             .set('X-Access-Token','eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1MjcxOTAzMDAsImlhdCI6MTUyNjMyNjMwMCwic3ViIjoia0Bob3RtYWlsLmNvbSJ9.LoRE0SOWP67t5exyhoLAf6hi8mlu49zBtKN-O_8gHXs')
             .send({
-                "huisId": 5,
-                "naam": "boom",
+                "naam": "lamp",
                 "adres": "aarde",
                 "userId": 1
             })
             .end((err, res) => {
                 res.should.have.status(200)
-                res.should.have.property('bericht').equals('Het studentenhuis is succesvol toegevoegd')
+                const response = res.body
+                response.should.have.property('bericht').equals('Het studentenhuis is succesvol toegevoegd')
                 res.body.should.be.a('object')
                 done()
             })
@@ -40,13 +40,13 @@ describe('Studentenhuis API POST', () => {
             .post('/api/studentenhuis')
             .set('X-Access-Token','eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1MjcxOTAzMDAsImlhdCI6MTUyNjMyNjMwMCwic3ViIjoia0Bob3RtYWlsLmNvbSJ9.LoRE0SOWP67t5exyhoLAf6hi8mlu49zBtKN-O_8gHXs')
             .send({
-                "huisId": 5,
                 "adres": "aarde",
                 "userId": 1
             })
             .end((err, res) => {
                 res.should.have.status(401)
-                res.should.have.property('bericht').equals('Het studentenhuis is niet succesvol toegevoegd')
+                const response = res.body
+                response.should.have.property('bericht').equals('Het studentenhuis is niet succesvol toegevoegd')
                 res.body.should.be.a('object')
                 done()
             })
@@ -57,13 +57,13 @@ describe('Studentenhuis API POST', () => {
             .post('/api/studentenhuis')
             .set('X-Access-Token','eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1MjcxOTAzMDAsImlhdCI6MTUyNjMyNjMwMCwic3ViIjoia0Bob3RtYWlsLmNvbSJ9.LoRE0SOWP67t5exyhoLAf6hi8mlu49zBtKN-O_8gHXs')
             .send({
-                "huisId": 5,
                 "naam": "boom",
                 "userId": 1
             })
             .end((err, res) => {
                 res.should.have.status(401)
-                res.should.have.property('bericht').equals('Het studentenhuis is niet succesvol toegevoegd')
+                const response = res.body
+                response.should.have.property('bericht').equals('Het studentenhuis is niet succesvol toegevoegd')
                 res.body.should.be.a('object')
                 done()
             })

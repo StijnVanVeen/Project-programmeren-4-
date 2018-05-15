@@ -18,20 +18,23 @@ router.get('/', (req, res) => {
 
 router.route('/')
     .post((req, res) => {
-        let huisId = req.body.huisId || '';
-        let naam = req.body.naam || '';
-        let adres = req.body.adres || '';
+        let naam = req.body.naam;
+        let adres = req.body.adres;
         let userId = req.body.userId || '';
 
-        db.query("INSERT INTO studentenhuis (ID, Naam, Adres, UserID) VALUES (" + huisId + ", '" + naam + "', '" + adres + "', " + userId + ");", function (err, result) {
-            if (err) {
-                res.status(401).json({"bericht: ": "Het studentenhuis is niet succesvol toegevoegd"});
-                throw err;
-            }
-            ;
-            console.log(result);
-            res.status(200).json({"bericht": "Het studentenhuis is succesvol toegevoegd"});
-        });
+        if(naam && adres) {
+            db.query("INSERT INTO studentenhuis (Naam, Adres, UserID) VALUES ('" + naam + "', '" + adres + "', " + userId + ");", function (err, result) {
+                if (err) {
+                    res.status(401).json({"bericht": "Het studentenhuis is niet succesvol toegevoegd"});
+                    throw err;
+                }
+                ;
+                console.log(result);
+                res.status(200).json({"bericht": "Het studentenhuis is succesvol toegevoegd"});
+            });
+        } else {
+            res.status(401).json({"bericht": "Het studentenhuis is niet succesvol toegevoegd"});
+        }
     });
 
 router.get('/:huisId', (req, res) => {
