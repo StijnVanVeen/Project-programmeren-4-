@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const auth =  require('../auth/authentication');
-const users = require('../datasource/users');
 const db = require('../datasource/databaseConnection');
 
 router.all( new RegExp("[^(\/login)]"), function (req, res, next) {
