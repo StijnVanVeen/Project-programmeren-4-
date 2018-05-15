@@ -1,8 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const users = require('../datasource/users');
 const db = require('../datasource/databaseConnection');
-
 
 
 router.route('/')

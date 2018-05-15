@@ -1,10 +1,13 @@
 var mysql = require('mysql');
+const config = require('../config.json');
 
+
+//bij heroku zou de host 188.166109.108 moeten zijn.
 var con = mysql.createConnection({
-    host: "localhost",
-    user: "studentenhuis_user",
-    password: "secret",
-    database: "studentenhuis"
+    host: config.dbServer,
+    user: config.dbUsername,
+    password: config.dbPassword,
+    database: config.dbSchema
 });
 
 con.connect(function(err) {

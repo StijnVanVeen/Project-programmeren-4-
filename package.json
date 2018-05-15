@@ -5,7 +5,7 @@
   "scripts": {
     "test-default": "echo \"Error: no test specified\" && exit 1",
     "test": "mocha --reporter spec",
-    "start": "node roommate-app.js"
+    "start": "node index.js"
   },
   "author": "",
   "license": "ISC",
