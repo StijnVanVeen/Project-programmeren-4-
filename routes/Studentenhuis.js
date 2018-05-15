@@ -175,15 +175,16 @@ router.delete('/:huisId/maaltijd/:maaltijdId/deelnemers', (req, res) => {
     const maaltijdId = req.params.maaltijdId || '';
     var token = (req.header('X-Access-Token')) || '';
 
-    // const data = auth.decodeToken(token, (err) => {
-    //     if (err) {
-    //         console.log('Error handler: ' + err.message);
-    //         res.status((err.status || 401 )).json({error: new Error("Not authorised").message});
-    //     }
-    // });
-    //
-    // console.log(data);
-
+    const data = auth.decodeToken(token, (err, payload) => {
+        if (err) {
+            console.log('Error handler: ' + err.message);
+            res.status((err.status || 401 )).json({error: new Error("Not authorised").message});
+        } else{
+            const username = payload.sub;
+            console.log(username);
+        };
+    });
+    
     db.query("DELETE FROM deelnemers WHERE StudentenhuisID = " + huisId + " AND MaaltijdID = " + maaltijdId + ";", function (err, result) {
         if (err) {
             res.status(401).json({"bericht": "De deelnemer is niet verwijderd"});
