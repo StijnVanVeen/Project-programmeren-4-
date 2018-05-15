@@ -34,6 +34,8 @@ router.route('/login')
             if(rows.length !== 0) {
                 if (email === rows[0].email && password === rows[0].password) {
                     res.status(200).json({"token": auth.encodeToken(email), "email": email});
+                } else {
+                    res.status(401).json({"error": "Invalid credentials, bye"})
                 }
             } else {
                 res.status(401).json({"error": "Invalid credentials, bye"})
