@@ -23,21 +23,44 @@ router.route('/')
     .post((req, res) => {
         let naam = req.body.naam;
         let adres = req.body.adres;
-        let userId = req.body.userId || '';
+        var token = (req.header('X-Access-Token')) || '';
+        let userId = '';
 
-        if(naam && adres) {
-            db.query("INSERT INTO studentenhuis (Naam, Adres, UserID) VALUES ('" + naam + "', '" + adres + "', " + userId + ");", function (err, result) {
-                if (err) {
-                    res.status(401).json({"bericht": "Het studentenhuis is niet succesvol toegevoegd"});
-                    console.log('Error handler: ' + err.message);
-                }
-                ;
-                console.log(result);
-                res.status(200).json({"bericht": "Het studentenhuis is succesvol toegevoegd"});
-            });
-        } else {
-            res.status(401).json({"bericht": "Het studentenhuis is niet succesvol toegevoegd"});
-        }
+        const data = auth.decodeToken(token, (err, payload) => {
+            if (err) {
+                console.log('Error handler: ' + err.message);
+                res.status((err.status || 401 )).json({error: new Error("Not authorised").message});
+            } else{
+                const username = payload.sub;
+                console.log(username);
+
+                db.query("SELECT ID FROM user WHERE Email = '" + username + "';", (err, result) => {
+                    if (err) {
+                        res.status(401).json({"bericht": "De username bestaat niet"});
+                        console.log('Error handler: ' + err.message);
+                    }
+                    let string = JSON.stringify(result);
+                    x = JSON.parse(string);
+                    userId = x[0]['ID'];
+                    console.log(userId);
+
+                    if(naam && adres) {
+                        db.query("INSERT INTO studentenhuis (Naam, Adres, UserID) VALUES ('" + naam + "', '" + adres + "', " + userId + ");", function (err, result) {
+                            if (err) {
+                                res.status(401).json({"bericht": "Het studentenhuis is niet succesvol toegevoegd"});
+                                console.log('Error handler: ' + err.message);
+                            }
+                            ;
+                            console.log(result);
+                            res.status(200).json({"bericht": "Het studentenhuis is succesvol toegevoegd"});
+                        });
+                    } else {
+                        res.status(401).json({"bericht": "Het studentenhuis is niet succesvol toegevoegd"});
+                    }
+                });
+            };
+        });
+
     });
 
 router.get('/:huisId', (req, res) => {
@@ -63,21 +86,45 @@ router.get('/:huisId', (req, res) => {
 router.put('/', (req, res) => {
     let naam = req.body.naam;
     let adres = req.body.adres;
-    let userId = req.body.userId || '';
+    var token = (req.header('X-Access-Token')) || '';
+    let userId = '';
 
-    if(naam && adres) {
-        db.query("INSERT INTO studentenhuis (Naam, Adres, UserID) VALUES ('" + naam + "', '" + adres + "', " + userId + ");", function (err, result) {
-            if (err) {
-                res.status(401).json({"bericht: ": "Het studentenhuis is niet succesvol toegevoegd"});
-                console.log('Error handler: ' + err.message);
-            }
-            ;
-            console.log(result);
-            res.status(200).json({"bericht": "Het studentenhuis is succesvol toegevoegd"});
-        });
-    } else {
-        res.status(401).json({"bericht": "Het studentenhuis is niet succesvol toegevoegd"});
-    }
+    const data = auth.decodeToken(token, (err, payload) => {
+        if (err) {
+            console.log('Error handler: ' + err.message);
+            res.status((err.status || 401 )).json({error: new Error("Not authorised").message});
+        } else{
+            const username = payload.sub;
+            console.log(username);
+
+            db.query("SELECT ID FROM user WHERE Email = '" + username + "';", (err, result) => {
+                if (err) {
+                    res.status(401).json({"bericht": "De username bestaat niet"});
+                    console.log('Error handler: ' + err.message);
+                }
+                let string = JSON.stringify(result);
+                x = JSON.parse(string);
+                userId = x[0]['ID'];
+                console.log(userId);
+
+                if(naam && adres) {
+                    db.query("INSERT INTO studentenhuis (Naam, Adres, UserID) VALUES ('" + naam + "', '" + adres + "', " + userId + ");", function (err, result) {
+                        if (err) {
+                            res.status(401).json({"bericht: ": "Het studentenhuis is niet succesvol toegevoegd"});
+                            console.log('Error handler: ' + err.message);
+                        }
+                        ;
+                        console.log(result);
+                        res.status(200).json({"bericht": "Het studentenhuis is succesvol toegevoegd"});
+                    });
+                } else {
+                    res.status(401).json({"bericht": "Het studentenhuis is niet succesvol toegevoegd"});
+                }
+
+            });
+        };
+    });
+
 });
 
 router.delete('/:huisId', (req, res, next) => {
@@ -106,16 +153,41 @@ router.route('/:huisId/maaltijd')
         let ingredienten = req.body.ingredienten || '';
         let allergie = req.body.allergie|| '';
         let prijs = req.body.prijs || '';
-        let userId = req.body.userId || '';
+        var token = (req.header('X-Access-Token')) || '';
+        let userId = '';
 
-        db.query("INSERT INTO maaltijd (ID, Naam, Beschrijving, Ingredienten, Allergie, Prijs, UserID, StudentenhuisID) VALUES ("+ maaltijdId +", '"+ naam +"', '"+ beschrijving +"', '"+ ingredienten +"', '"+ allergie +"', "+ prijs +", "+ userId +", "+ huisId +");", function (err, result) {
+        const data = auth.decodeToken(token, (err, payload) => {
             if (err) {
-                res.status(401).json({"bericht: ": "De maaltijd is niet succesvol toegevoegd"});
                 console.log('Error handler: ' + err.message);
+                res.status((err.status || 401 )).json({error: new Error("Not authorised").message});
+            } else{
+                const username = payload.sub;
+                console.log(username);
+
+                db.query("SELECT ID FROM user WHERE Email = '" + username + "';", (err, result) => {
+                    if (err) {
+                        res.status(401).json({"bericht": "De username bestaat niet"});
+                        console.log('Error handler: ' + err.message);
+                    }
+                    let string = JSON.stringify(result);
+                    x = JSON.parse(string);
+                    userId = x[0]['ID'];
+                    console.log(userId);
+
+                    db.query("INSERT INTO maaltijd (ID, Naam, Beschrijving, Ingredienten, Allergie, Prijs, UserID, StudentenhuisID) VALUES ("+ maaltijdId +", '"+ naam +"', '"+ beschrijving +"', '"+ ingredienten +"', '"+ allergie +"', "+ prijs +", "+ userId +", "+ huisId +");", function (err, result) {
+                        if (err) {
+                            res.status(401).json({"bericht: ": "De maaltijd is niet succesvol toegevoegd"});
+                            console.log('Error handler: ' + err.message);
+                        };
+                        console.log(result);
+                        res.status(200).json({"bericht": "de maaltijd is succesvol toegevoegd"});
+                    });
+
+                });
             };
-            console.log(result);
-            res.status(200).json({"bericht": "de maaltijd is succesvol toegevoegd"});
         });
+
+
     });
 
 router.get('/:huisId/maaltijd', (req, res) => {
@@ -153,15 +225,38 @@ router.put('/:huisId/maaltijd/:maaltijdId', (req, res) => {
     let ingredienten = req.body.ingredienten || '';
     let allergie = req.body.allergie|| '';
     let prijs = req.body.prijs || '';
-    let userId = req.body.userId || '';
+    var token = (req.header('X-Access-Token')) || '';
+    let userId = '';
 
-    db.query("INSERT INTO maaltijd (ID, Naam, Beschrijving, Ingredienten, Allergie, Prijs, UserID, StudentenhuisID) VALUES ("+ maaltijdId +", '"+ naam +"', '"+ beschrijving +"', '"+ ingredienten +"', '"+ allergie +"', "+ prijs +", "+ userId +", "+ huisId +");", function (err, result) {
+    const data = auth.decodeToken(token, (err, payload) => {
         if (err) {
-            res.status(401).json({"bericht: ": "De maaltijd is niet succesvol toegevoegd"});
             console.log('Error handler: ' + err.message);
+            res.status((err.status || 401 )).json({error: new Error("Not authorised").message});
+        } else{
+            const username = payload.sub;
+            console.log(username);
+
+            db.query("SELECT ID FROM user WHERE Email = '" + username + "';", (err, result) => {
+                if (err) {
+                    res.status(401).json({"bericht": "De username bestaat niet"});
+                    console.log('Error handler: ' + err.message);
+                }
+                let string = JSON.stringify(result);
+                x = JSON.parse(string);
+                userId = x[0]['ID'];
+                console.log(userId);
+
+                db.query("INSERT INTO maaltijd (ID, Naam, Beschrijving, Ingredienten, Allergie, Prijs, UserID, StudentenhuisID) VALUES ("+ maaltijdId +", '"+ naam +"', '"+ beschrijving +"', '"+ ingredienten +"', '"+ allergie +"', "+ prijs +", "+ userId +", "+ huisId +");", function (err, result) {
+                    if (err) {
+                        res.status(401).json({"bericht: ": "De maaltijd is niet succesvol toegevoegd"});
+                        console.log('Error handler: ' + err.message);
+                    };
+                    console.log(result);
+                    res.status(200).json({"bericht": "de maaltijd is succesvol toegevoegd"});
+                });
+
+            });
         };
-        console.log(result);
-        res.status(200).json({"bericht": "de maaltijd is succesvol toegevoegd"});
     });
 });
 
@@ -188,15 +283,37 @@ router.route('/:huisId/maaltijd/:maaltijdId')
     .post((req, res) => {
         const huisId = req.params.huisId || '';
         const maaltijdId = req.params.maaltijdId || '';
-        let userId = req.body.userId || '';
+        var token = (req.header('X-Access-Token')) || '';
+        let userId = '';
 
-        db.query("INSERT INTO deelnemers (UserID, StudentenhuisID, MaaltijdID) VALUES ("+ userId +", "+ huisId +", "+ maaltijdId +");", function (err, result) {
+        const data = auth.decodeToken(token, (err, payload) => {
             if (err) {
-                res.status(401).json({"bericht": "De deelnemer is niet toegevoegd"});
                 console.log('Error handler: ' + err.message);
-            }
-            console.log(result);
-            res.status(200).json({"bericht": "De deelnemer is succesvol toegevoegd"});
+                res.status((err.status || 401 )).json({error: new Error("Not authorised").message});
+            } else{
+                const username = payload.sub;
+                console.log(username);
+
+                db.query("SELECT ID FROM user WHERE Email = '" + username + "';", (err, result) => {
+                    if (err) {
+                        res.status(401).json({"bericht": "De username bestaat niet"});
+                        console.log('Error handler: ' + err.message);
+                    }
+                    let string = JSON.stringify(result);
+                    x = JSON.parse(string);
+                    userId = x[0]['ID'];
+                    console.log(userId);
+
+                    db.query("INSERT INTO deelnemers (UserID, StudentenhuisID, MaaltijdID) VALUES (" + userId + ", " + huisId + ", " + maaltijdId + ");", function (err, result) {
+                        if (err) {
+                            res.status(401).json({"bericht": "De deelnemer is niet toegevoegd"});
+                            console.log('Error handler: ' + err.message);
+                        }
+                        console.log(result);
+                        res.status(200).json({"bericht": "De deelnemer is succesvol toegevoegd"});
+                    });
+                });
+            };
         });
     });
 

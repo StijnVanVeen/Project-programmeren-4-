@@ -24,7 +24,6 @@ describe('Studentenhuis API POST', () => {
             .send({
                 "naam": "lamp",
                 "adres": "aarde",
-                "userId": 1
             })
             .end((err, res) => {
                 res.should.have.status(200)
@@ -41,7 +40,6 @@ describe('Studentenhuis API POST', () => {
             .set('X-Access-Token', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1MjcxOTAzMDAsImlhdCI6MTUyNjMyNjMwMCwic3ViIjoia0Bob3RtYWlsLmNvbSJ9.LoRE0SOWP67t5exyhoLAf6hi8mlu49zBtKN-O_8gHXs')
             .send({
                 "adres": "aarde",
-                "userId": 1
             })
             .end((err, res) => {
                 res.should.have.status(401)
@@ -58,7 +56,6 @@ describe('Studentenhuis API POST', () => {
             .set('X-Access-Token', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1MjcxOTAzMDAsImlhdCI6MTUyNjMyNjMwMCwic3ViIjoia0Bob3RtYWlsLmNvbSJ9.LoRE0SOWP67t5exyhoLAf6hi8mlu49zBtKN-O_8gHXs')
             .send({
                 "naam": "boom",
-                "userId": 1
             })
             .end((err, res) => {
                 res.should.have.status(401)
@@ -119,7 +116,7 @@ describe('Studentenhuis API GET one', () => {
 
     it('should return an error when using an non-existing huisId', (done) => {
         chai.request(index)
-            .get('/api/studentenhuis/99')
+            .get('/api/studentenhuis/9999')
             .set('X-Access-Token', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1MjcxOTAzMDAsImlhdCI6MTUyNjMyNjMwMCwic3ViIjoia0Bob3RtYWlsLmNvbSJ9.LoRE0SOWP67t5exyhoLAf6hi8mlu49zBtKN-O_8gHXs')
             .end((err, res) => {
                 res.should.have.status(401)
@@ -148,7 +145,6 @@ describe('Studentenhuis API PUT', () => {
             .send({
                 "naam": "kel",
                 "adres": "zernikenlaan",
-                "userId": 1
             })
             .end((err, res) => {
                 res.should.have.status(200)
@@ -163,7 +159,6 @@ describe('Studentenhuis API PUT', () => {
             .set('X-Access-Token', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1MjcxOTAzMDAsImlhdCI6MTUyNjMyNjMwMCwic3ViIjoia0Bob3RtYWlsLmNvbSJ9.LoRE0SOWP67t5exyhoLAf6hi8mlu49zBtKN-O_8gHXs')
             .send({
                 "adres": "zernikenlaan",
-                "userId": 1
             })
             .end((err, res) => {
                 res.should.have.status(401)
@@ -178,7 +173,6 @@ describe('Studentenhuis API PUT', () => {
             .set('X-Access-Token', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1MjcxOTAzMDAsImlhdCI6MTUyNjMyNjMwMCwic3ViIjoia0Bob3RtYWlsLmNvbSJ9.LoRE0SOWP67t5exyhoLAf6hi8mlu49zBtKN-O_8gHXs')
             .send({
                 "naam": "kel",
-                "userId": 1
             })
             .end((err, res) => {
                 res.should.have.status(401)
