@@ -6,7 +6,10 @@ const auth =  require('../auth/authentication');
 
 router.get('/', (req, res) => {
     db.query("SELECT * FROM studentenhuis;", function (err, result) {
-        if (err) throw err;
+        if (err){
+            res.status(401);
+            throw err;
+        }
         console.log(result);
         res.status(200).json(result);
     });
@@ -41,9 +44,19 @@ router.get('/:huisId', (req, res) => {
     const huisId = req.params.huisId || '';
 
     db.query("SELECT * FROM studentenhuis WHERE ID = " + huisId + ";", function (err, result) {
-        if (err) throw err;
+        if (err) {
+            res.status(401);
+            throw err;
+        }
         console.log(result);
-        res.status(200).json(result);
+        let string = JSON.stringify(result)
+        object = JSON.parse(string);
+        if (result.length !== 0){
+            res.status(200).json(object[0]);
+        } else {
+            res.status(401).json({'bericht': 'Er is geen studentenhuis gevonden'});
+        }
+
     });
 });
 

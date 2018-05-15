@@ -72,40 +72,60 @@ describe('Studentenhuis API POST', () => {
 
 describe('Studentenhuis API GET all', () => {
     it('should throw an error when using invalid JWT token', (done) => {
-        //
-        // Hier schrijf je jouw testcase.
-        //
-        done()
+        chai.request(index)
+            .get('/api/studentenhuis')
+            .set('X-Access-Token','wrong token')
+            .end((err, res) => {
+                res.should.have.status(401)
+                res.body.should.be.a('object')
+                done()
+            })
     })
 
     it('should return all studentenhuizen when using a valid token', (done) => {
-        //
-        // Hier schrijf je jouw testcase.
-        //
-        done()
+        chai.request(index)
+            .get('/api/studentenhuis')
+            .set('X-Access-Token','eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1MjcxOTAzMDAsImlhdCI6MTUyNjMyNjMwMCwic3ViIjoia0Bob3RtYWlsLmNvbSJ9.LoRE0SOWP67t5exyhoLAf6hi8mlu49zBtKN-O_8gHXs')
+            .end((err, res) => {
+                res.should.have.status(200)
+                res.body.should.be.a('array')
+                done()
+            })
     })
 })
 
 describe('Studentenhuis API GET one', () => {
     it('should throw an error when using invalid JWT token', (done) => {
-        //
-        // Hier schrijf je jouw testcase.
-        //
-        done()
+        chai.request(index)
+            .get('/api/studentenhuis/1')
+            .set('X-Access-Token','wrong token')
+            .end((err, res) => {
+                res.should.have.status(401)
+                res.body.should.be.a('object')
+                done()
+            })
     })
 
     it('should return the correct studentenhuis when using an existing huisId', (done) => {
-        //
-        // Hier schrijf je jouw testcase.
-        //
-        done()
+        chai.request(index)
+            .get('/api/studentenhuis/1')
+            .set('X-Access-Token','eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1MjcxOTAzMDAsImlhdCI6MTUyNjMyNjMwMCwic3ViIjoia0Bob3RtYWlsLmNvbSJ9.LoRE0SOWP67t5exyhoLAf6hi8mlu49zBtKN-O_8gHXs')
+            .end((err, res) => {
+                res.should.have.status(200)
+                res.body.should.be.a('object')
+                done()
+            })
     })
 
     it('should return an error when using an non-existing huisId', (done) => {
-        //
-        // Hier schrijf je jouw testcase.
-        //
-        done()
+        chai.request(index)
+            .get('/api/studentenhuis/99')
+            .set('X-Access-Token','eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1MjcxOTAzMDAsImlhdCI6MTUyNjMyNjMwMCwic3ViIjoia0Bob3RtYWlsLmNvbSJ9.LoRE0SOWP67t5exyhoLAf6hi8mlu49zBtKN-O_8gHXs')
+            .end((err, res) => {
+                res.should.have.status(401)
+                res.body.should.be.a('object')
+                done()
+            })
     })
 })
 
