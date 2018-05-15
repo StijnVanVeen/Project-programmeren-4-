@@ -169,11 +169,11 @@ router.get('/:huisId/maaltijd/:maaltijdId/deelnemers', (req, res) => {
 });
 
 
-// VERWIJDERD NOG NIET VIA USERID DIE UIT DE TOKEN KOMT
 router.delete('/:huisId/maaltijd/:maaltijdId/deelnemers', (req, res) => {
     const huisId = req.params.huisId || '';
     const maaltijdId = req.params.maaltijdId || '';
     var token = (req.header('X-Access-Token')) || '';
+    let userId = '';
 
     const data = auth.decodeToken(token, (err, payload) => {
         if (err) {
@@ -182,16 +182,27 @@ router.delete('/:huisId/maaltijd/:maaltijdId/deelnemers', (req, res) => {
         } else{
             const username = payload.sub;
             console.log(username);
+
+            db.query("SELECT ID FROM user WHERE Email = '" + username + "';", (err, result) => {
+                if (err) {
+                    res.status(401).json({"bericht": "De username bestaat niet"});
+                    throw err;
+                }
+                let string = JSON.stringify(result);
+                x = JSON.parse(string);
+                userId = x[0]['ID'];
+                console.log(userId);
+
+                db.query("DELETE FROM deelnemers WHERE StudentenhuisID = " + huisId + " AND MaaltijdID = " + maaltijdId + " AND UserID = " + userId + ";", function (err, result) {
+                    if (err) {
+                        res.status(401).json({"bericht": "De deelnemer is niet verwijderd"});
+                        throw err;
+                    }
+                    console.log(result);
+                    res.status(200).json({"bericht": "De deelnemer is succesvol verwijderd"});
+                });
+            });
         };
-    });
-    
-    db.query("DELETE FROM deelnemers WHERE StudentenhuisID = " + huisId + " AND MaaltijdID = " + maaltijdId + ";", function (err, result) {
-        if (err) {
-            res.status(401).json({"bericht": "De deelnemer is niet verwijderd"});
-            throw err;
-        }
-        console.log(result);
-        res.status(200).json({"bericht": "De deelnemer is succesvol verwijderd"});
     });
 });
 
