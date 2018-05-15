@@ -27,12 +27,18 @@ router.route('/login')
         let password = req.body.password || '';
 
         db.query("SELECT email, password FROM user WHERE email = ? ",[email], function (err, rows, fields) {
-            if (err) throw err;
+            if (err){
+                console.log('Error handler: ' + err.message);
+            }
             console.log(rows);
-            if(email === rows[0].email && password === rows[0].password ){
-                res.status(200).json({"token" : auth.encodeToken(email), "email" : email});
-            }else{
-                res.status(401).json({"error":"Invalid credentials, bye"})
+            if(rows.length !== 0) {
+                if (email === rows[0].email && password === rows[0].password) {
+                    res.status(200).json({"token": auth.encodeToken(email), "email": email});
+                } else {
+                    res.status(401).json({"error": "Invalid credentials, bye"})
+                }
+            } else {
+                res.status(401).json({"error": "Invalid credentials, bye"})
             }
         });
     });
