@@ -3,7 +3,7 @@
  */
 const chai = require('chai')
 const chaiHttp = require('chai-http')
-const server = require('../server')
+const index = require('../index')
 
 chai.should()
 chai.use(chaiHttp)
@@ -14,18 +14,20 @@ let validToken
 
 describe('Registration', () => {
     it('should return a token when providing valid information', (done) => {
-        //
-        // Hier schrijf je jouw testcase.
-        //
-
-        // Tip: deze test levert een token op. Dat token gebruik je in 
-        // andere testcases voor beveiligde routes door het hier te exporteren
-        // en in andere testcases te importeren via require.
-        // validToken = res.body.token
-        // module.exports = {
-        //     token: validToken
-        // }
-        done()
+        chai.request(index)
+            .post('/api/login')
+            .set('Content-Type', 'application/json')
+            .send({
+                "email": "jsmit@server.nl",
+                "password": "secret",
+            })
+            .end((err, res) => {
+                res.should.have.status(200)
+                const response = res.body
+                response.should.have.property('token')
+                res.body.should.be.a('object')
+                done()
+            })
     })
 
     it('should return an error on GET request', (done) => {
