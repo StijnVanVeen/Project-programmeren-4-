@@ -9,7 +9,7 @@ class User{
 
         console.log(testFirstName, testLastName, testEmail);
 
-        if(testFirstName === false || testLastName === false || testEmail === false){
+        if(testFirstName === false || testLastName === false || testEmail === false || firstName.length < 2 || lastName.length < 2){
             this.firstName = false;
         }else{
             this.firstName = firstName;
