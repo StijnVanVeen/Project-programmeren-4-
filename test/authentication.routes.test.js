@@ -21,7 +21,7 @@ describe('Registration', () => {
                 "firstname": "Keesje",
                 "lastname": "Smid",
                 "email": "keesje@server.nl",
-                "password": "secret22",
+                "password": "secret22"
             })
             .end((err, res) => {
                 res.should.have.status(200)
@@ -40,7 +40,7 @@ describe('Registration', () => {
                 "firstname": "Kees",
                 "lastname": "Smid",
                 "email": "kees@server.nl",
-                "password": "secret2",
+                "password": "secret2"
             })
             .end((err, res) => {
                 res.should.have.status(401)

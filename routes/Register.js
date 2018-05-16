@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const auth =  require('../auth/authentication');
 const db = require('../datasource/databaseConnection');
 const User = require("../domain/User");
 
@@ -21,7 +22,7 @@ router.route('/')
             let query = "INSERT INTO user (voornaam, achternaam, email, password) VALUES ('" + user.firstName + "', '" + user.lastName + "', '" + user.email + "', '" + user.password + "')";
             console.log(query);
             db.query(query);
-            res.status(200).json({"succes" : "De user is succesvol toegevoegd!"});
+            res.status(200).json({"token": auth.encodeToken(email)});
         }
     });
 
