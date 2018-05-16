@@ -15,7 +15,7 @@ class User{
             this.firstName = firstName;
             this.lastName = lastName;
             this.email = email;
-            this.password = CryptoJS.AES.encrypt(password.toString(), "ssAstaEnjitS").toString();
+            this.password = password;/*CryptoJS.AES.encrypt(password.toString(), "ssAstaEnjitS").toString();*/
         }
     }
 }
