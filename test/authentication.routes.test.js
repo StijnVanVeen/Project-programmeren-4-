@@ -18,10 +18,10 @@ describe('Registration', () => {
             .post('/api/register')
             .set('Content-Type', 'application/json')
             .send({
-                "firstname": "Kees",
+                "firstname": "Keesje",
                 "lastname": "Smid",
-                "email": "kees@server.nl",
-                "password": "secret2",
+                "email": "keesje@server.nl",
+                "password": "secret22",
             })
             .end((err, res) => {
                 res.should.have.status(200)
@@ -43,7 +43,7 @@ describe('Registration', () => {
                 "password": "secret2",
             })
             .end((err, res) => {
-                res.should.have.status(404)
+                res.should.have.status(401)
                done()
             })
     })
@@ -59,7 +59,7 @@ describe('Registration', () => {
                 "password": "secret",
             })
             .end((err, res) => {
-                res.should.have.status(404)
+                res.should.have.status(401)
                 done()
             })
     })
@@ -74,7 +74,7 @@ describe('Registration', () => {
                 "password": "secret2",
             })
             .end((err, res) => {
-                res.should.have.status(404)
+                res.should.have.status(401)
                 done()
             })
     })
@@ -90,7 +90,7 @@ describe('Registration', () => {
                 "password": "secret2",
             })
             .end((err, res) => {
-                res.should.have.status(404)
+                res.should.have.status(401)
                 done()
             })
     })
@@ -105,7 +105,7 @@ describe('Registration', () => {
                 "password": "secret2",
             })
             .end((err, res) => {
-                res.should.have.status(404)
+                res.should.have.status(401)
                 done()
             })
     })
@@ -121,7 +121,7 @@ describe('Registration', () => {
                 "password": "secret2",
             })
             .end((err, res) => {
-                res.should.have.status(404)
+                res.should.have.status(401)
                 done()
             })
     })
@@ -137,7 +137,7 @@ describe('Registration', () => {
                 "password": "secret2",
             })
             .end((err, res) => {
-                res.should.have.status(404)
+                res.should.have.status(401)
                 done()
             })
     })
