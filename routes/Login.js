@@ -4,9 +4,9 @@ const auth =  require('../auth/authentication');
 const db = require('../datasource/databaseConnection');
 const CryptoJS = require('crypto-js');
 
-router.all( new RegExp("[^(\/login)]"), function (req, res, next) {
+router.all( new RegExp("[^(?:\/login)|(?:\/register)]"), function (req, res, next) {
 
-    console.log("VALIDATE TOKEN")
+    console.log("VALIDATE TOKEN");
 
     var token = (req.header('X-Access-Token')) || '';
 

@@ -56,7 +56,7 @@ describe('Registration', () => {
                 "firstname": "Jan",
                 "lastname": "Smit",
                 "email": "jsmit@server.nl",
-                "password": "secret",
+                "password": "secret"
             })
             .end((err, res) => {
                 res.should.have.status(401)
@@ -71,7 +71,7 @@ describe('Registration', () => {
             .send({
                 "lastname": "Smid",
                 "email": "kees@server.nl",
-                "password": "secret2",
+                "password": "secret2"
             })
             .end((err, res) => {
                 res.should.have.status(401)
@@ -87,7 +87,7 @@ describe('Registration', () => {
                 "firstname": "K",
                 "lastname": "Smid",
                 "email": "kees@server.nl",
-                "password": "secret2",
+                "password": "secret2"
             })
             .end((err, res) => {
                 res.should.have.status(401)
@@ -102,7 +102,7 @@ describe('Registration', () => {
             .send({
                 "firstname": "Kees",
                 "email": "kees@server.nl",
-                "password": "secret2",
+                "password": "secret2"
             })
             .end((err, res) => {
                 res.should.have.status(401)
@@ -118,7 +118,7 @@ describe('Registration', () => {
                 "firstname": "Kees",
                 "lastname": "S",
                 "email": "kees@server.nl",
-                "password": "secret2",
+                "password": "secret2"
             })
             .end((err, res) => {
                 res.should.have.status(401)
@@ -134,7 +134,7 @@ describe('Registration', () => {
                 "firstname": "Kees",
                 "lastname": "Smid",
                 "email": "kees",
-                "password": "secret2",
+                "password": "secret2"
             })
             .end((err, res) => {
                 res.should.have.status(401)
@@ -152,7 +152,7 @@ describe('Login', () => {
             .set('Content-Type', 'application/json')
             .send({
                 "email": "jsmit@server.nl",
-                "password": "secret",
+                "password": "secret"
             })
             .end((err, res) => {
                 res.should.have.status(200)
@@ -168,7 +168,7 @@ describe('Login', () => {
             .post('/api/login')
             .set('Content-Type', 'application/json')
             .send({
-                "password": "secret",
+                "password": "secret"
             })
             .end((err, res) => {
                 res.should.have.status(401)
@@ -183,7 +183,7 @@ describe('Login', () => {
             .set('Content-Type', 'application/json')
             .send({
                 "email": "jsmit@server.nl",
-                "password": "wrongPassword",
+                "password": "wrongPassword"
             })
             .end((err, res) => {
                 res.should.have.status(401)
@@ -198,7 +198,7 @@ describe('Login', () => {
             .set('Content-Type', 'application/json')
             .send({
                 "email": "wrongEmail@server.nl",
-                "password": "secret",
+                "password": "secret"
             })
             .end((err, res) => {
                 res.should.have.status(401)

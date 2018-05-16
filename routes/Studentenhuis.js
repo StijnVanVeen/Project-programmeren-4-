@@ -79,7 +79,6 @@ router.get('/:huisId', (req, res) => {
         } else {
             res.status(401).json({'bericht': 'Er is geen studentenhuis gevonden'});
         }
-
     });
 });
 
