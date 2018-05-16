@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "test-default": "echo \"Error: no test specified\" && exit 1",
-    "test": "mocha --reporter spec",
+    "test": "mocha --reporter --timeout 10000 spec",
     "start": "node index.js"
   },
   "author": "",

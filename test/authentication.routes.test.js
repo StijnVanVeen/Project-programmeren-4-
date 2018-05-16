@@ -10,7 +10,6 @@ chai.use(chaiHttp)
 
 // After successful registration we have a valid token. We export this token
 // for usage in other testcases that require login.
-let validToken = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1MjcyNzE2NjksImlhdCI6MTUyNjQwNzY2OSwic3ViIjoianNtaXRAc2VydmVyLm5sIn0.6EM0JW99fIGsnDBst5UwaALRR84O2HaM1MOgaW3CfOI';
 
 describe('Registration', () => {
     it('should return a token when providing valid information', (done) => {
