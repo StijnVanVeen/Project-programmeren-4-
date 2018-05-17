@@ -23,10 +23,9 @@ router.route('/')
                    res.status(401);
                    console.log('Error handler' + err.message);
                }
-               console.log(result);
                if (result.length > 0){
-                   console.log(result);
-                   res.status(401);
+                   console.log(result.length);
+                   res.status(401).json({"error" : "this user already exists"});
                }else{
                    console.log(email, password, firstname, lastname);
 

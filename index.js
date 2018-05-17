@@ -24,8 +24,4 @@ app.use('/api/register', require('./routes/Register'));
 // Start the server
 const port = process.env.PORT || 8080;
 
-app.listen(port, function() {
-    console.log('http://localhost:' + port);
-});
-
 module.exports = app;
